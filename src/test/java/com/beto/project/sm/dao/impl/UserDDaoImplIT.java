@@ -18,6 +18,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SpringMongoConfig.class)
 public class UserDDaoImplIT {
-
+    private static final Logger logger = LoggerFactory.getLogger(UserDDaoImplIT.class);
     @Autowired
     private UserMDap ms;
 
@@ -40,13 +42,13 @@ public class UserDDaoImplIT {
 
     @BeforeClass
     public static void setUpClass() {
-    	System.out.println("MONGO DB TEST IS STARTING...");
+    	logger.debug("MONGO DB TEST IS STARTING...");
         t = new User(1, "TEST_USER", "1234");
     }
 
     @AfterClass
     public static void tearDownClass() {
-    	System.out.println("MONGO DB TEST FINISHED...");
+    	logger.debug("MONGO DB TEST FINISHED...");
     }
 
     @Before
@@ -66,10 +68,10 @@ public class UserDDaoImplIT {
      */
     @Test
     public void testSaveUser() throws Exception {
-        System.out.println("saveUser");
+        logger.debug("saveUser");
         User expResult = null;
         User result = ms.saveUser(t);
-        System.out.println("result : " + result);
+        logger.debug("result : " + result);
         Assert.assertThat(expResult, Is.is(IsNot.not(result)));
     }
 
@@ -80,11 +82,11 @@ public class UserDDaoImplIT {
      */
     @Test
     public void testUpdateUser() throws Exception {
-        System.out.println("updateUser");
+        logger.debug("updateUser");
         User expResult = null;
         t.setPassword("12345");
         User result = ms.updateUser(t);
-        System.out.println("result : " + result);
+        logger.debug("result : " + result);
         Assert.assertThat(expResult, Is.is(IsNot.not(result)));
     }
 
@@ -95,7 +97,7 @@ public class UserDDaoImplIT {
      */
     @Test
     public void testFindUser() throws Exception {
-        System.out.println("findUser");
+        logger.debug("findUser");
         User expResult = null;
         User result = ms.findUser(t.getId());
         Assert.assertThat(expResult, Is.is(IsNot.not(result)));
@@ -108,10 +110,10 @@ public class UserDDaoImplIT {
      */
     @Test
     public void testFindAll() throws Exception {
-        System.out.println("findAll");
+        logger.debug("findAll");
         List<User> expResult = null;
         List<User> result = ms.findAll();
-        System.out.println("result size : " + result.size());
+        logger.debug("result size : " + result.size());
         Assert.assertThat(expResult, Is.is(IsNot.not(result)));
     }
 
@@ -122,10 +124,10 @@ public class UserDDaoImplIT {
      */
     @Test
     public void testDeleteUser() throws Exception {
-        System.out.println("deleteUser");
+        logger.debug("deleteUser");
         boolean expResult = false;
         boolean result = ms.deleteUser(t);
-        System.out.println("result : " + result);
+        logger.debug("result : " + result);
         Assert.assertThat(expResult, Is.is(IsNot.not(result)));
     }
     
